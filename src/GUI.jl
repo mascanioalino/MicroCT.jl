@@ -114,5 +114,3 @@ function start_app()
 
   run_server(app, "0.0.0.0", 8080)
 end
-
-start_app()
