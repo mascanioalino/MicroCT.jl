@@ -173,25 +173,6 @@ function ROI(ribs)
     return lungs
 end
 
-function save_images(dir)
-    cd(dir)
-    mydir=glob("*_Rec")
-    output_dir = mkdir("JuliaOutput")
-    for i in range(1, length=length(mydir))
-        name = (dir*"\\"*mydir[i])
-        mouse = ReadStack(name)
-        bones = mouse .> .68
-        ribs = find_ribs(bones, size(bones))
-        in_ribs = ROI(ribs)
-        interior = mouse.*in_ribs
-        cd(dir*"\\"*output_dir)
-        out = mkdir("Result "*mydir[i])
-        for i in range(50,stop=310,step=50)
-            path = out*"\\layer$i.png"
-            save(path,colorview(Gray, interior[:,:,i]))
-        end
-    end
-end
 
 function calculate_data(dir)
     if occursin(r"_Rec",dir)
@@ -293,11 +274,11 @@ end
 
 function save_image(roi,dir)
     N = size(roi,3)
-    cd(dir)
+    new_dir = joinpath(dir,"images")
     for i in range(1,length=N)
-        save(dir*"layer$i.png", colorview(Gray,(roi[:,:,i])))
+        new_file = basename(dir)*"_layer$i.png"
+        save(joinpath(new_dir,new_file), colorview(Gray,(roi[:,:,i])))
     end
-    cd("..")
 end
 
 function calculate_singular_hist(mouse, region_of_interest=false,save_images=false,dir=false)

@@ -10,7 +10,7 @@ function start_app()
           html_h3("Enter directory path"),
           html_p("-If on Mac: go to directory, right click on the folder and hit option, then hit \"copy (name of file) as Pathname\""),
           html_p("-If on Windows: select the directory without going into it, hit \"Copy path\" on the tool bar on top"),
-          html_p("Paste the path below")]),
+          html_p("Paste the path below, but make sure there are no quotation marks")]),
         dcc_input(id = "path", type = "text", value = ""),
         html_div(id = "file_entered"),
         ]
@@ -23,7 +23,7 @@ function start_app()
         html_div(id = "data_creating"),
         html_div(id = "data_created"),
         html_div([
-          html_button("Create histogram image and csv", id="hist", value="true")
+          html_button("Create histogram csv", id="hist", value="true")
           ]),
         html_div(id = "histogram_creating"),
         html_div(id = "histogram_created"),
@@ -98,7 +98,7 @@ function start_app()
     if length(file)!=0
       if occursin(r"_Rec", file)
         mouse = ReadStack(file)
-        hist_data = calculate_singular_hist(mouse,roi=="roi",save_im=="save_im",file) # if it doesnt already exist
+        hist_data = calculate_singular_hist(mouse,roi=="roi",save_im==Any["save_im"],file) # if it doesnt already exist
         html_div([html_p("Done")])
       elseif isdir(file)
         calculate_histograms(file,roi=="roi",save_im=="save_im")
